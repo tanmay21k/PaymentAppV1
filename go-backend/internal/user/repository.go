@@ -8,6 +8,7 @@ import (
 
 type repository interface {
 	CreateUser(ctx context.Context, arg database.CreateUserParams) (database.User, error)
+	FetchUser(ctx context.Context, username string) (database.User, error)
 }
 
 type sqlcRepository struct {
@@ -20,6 +21,10 @@ func newRepository(queries *database.Queries) repository {
 
 func (r sqlcRepository) CreateUser(ctx context.Context, arg database.CreateUserParams) (database.User, error) {
 	return r.queries.CreateUser(ctx, arg)
+}
+
+func (r sqlcRepository) FetchUser(ctx context.Context, username string) (database.User, error) {
+	return r.queries.FetchUser(ctx, username)
 }
 
 type svc struct {

@@ -28,8 +28,8 @@ func main() {
 
 	queries := database.New(pool)
 	mux := http.NewServeMux()
-	mux.Handle("/hello", user.SayHello())
-	mux.Handle("/signup", user.SignUp(queries))
+	mux.Handle("/hello", user.SayHello(log))
+	mux.Handle("/signup", user.SignUp(log, queries))
 
 	log.Info("server started", "port", 8080)
 	if err := http.ListenAndServe(":8080", mux); err != nil {

@@ -2,3 +2,8 @@
 INSERT INTO "user" (firstname, lastname, username, password)
 VALUES ($1, $2, $3, $4)
 RETURNING *;
+
+-- name: FetchUser :one
+SELECT *
+FROM "user"
+WHERE username = $1;

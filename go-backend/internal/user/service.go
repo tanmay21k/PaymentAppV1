@@ -2,13 +2,10 @@ package user
 
 import (
 	"context"
-	"encoding/json"
 	"errors"
-	"io"
-	"log/slog"
-	"net/http"
-	"strings"
+	"fmt"
 
+	"github.com/jackc/pgx/v5"
 	"github.com/jackc/pgx/v5/pgtype"
 	"github.com/tanmay21k/internal/database"
 	"golang.org/x/crypto/bcrypt"
@@ -21,31 +18,12 @@ type signUpRequest struct {
 	Password  string `json:"password"`
 }
 
-func validateSignUp(log *slog.Logger, r *http.Request) (signUpRequest, error) {
-	var request signUpRequest
-	decoder := json.NewDecoder(r.Body)
-	decoder.DisallowUnknownFields()
-	if err := decoder.Decode(&request); err != nil {
-		log.Error("error reading body", "error", err)
-		return signUpRequest{}, errors.New("invalid request body")
-	}
-	if err := decoder.Decode(&struct{}{}); !errors.Is(err, io.EOF) {
-		return signUpRequest{}, errors.New("request body must contain a single JSON object")
-	}
-
-	request.FirstName = strings.TrimSpace(request.FirstName)
-	request.LastName = strings.TrimSpace(request.LastName)
-	request.Username = strings.TrimSpace(request.Username)
-	if request.FirstName == "" || request.LastName == "" || request.Username == "" || strings.TrimSpace(request.Password) == "" {
-		log.Error("bad request")
-		return signUpRequest{}, errors.New("all fields are required")
-	}
-	if len(request.Password) > 72 {
-		return signUpRequest{}, errors.New("password must be 72 bytes or fewer")
-	}
-
-	return request, nil
+type signInRequest struct {
+	Username string `json:"username"`
+	Password string `json:"password"`
 }
+
+// ---- Service ----
 
 func newService(repo repository) *svc {
 	return &svc{repo: repo}
@@ -54,13 +32,40 @@ func newService(repo repository) *svc {
 func (s *svc) SignUp(ctx context.Context, request signUpRequest) (database.User, error) {
 	passwordHash, err := bcrypt.GenerateFromPassword([]byte(request.Password), bcrypt.DefaultCost)
 	if err != nil {
-		return database.User{}, err
+		return database.User{}, fmt.Errorf("hash password: %w", err)
 	}
 
-	return s.repo.CreateUser(ctx, database.CreateUserParams{
+	user, err := s.repo.CreateUser(ctx, database.CreateUserParams{
 		Firstname: pgtype.Text{String: request.FirstName, Valid: true},
 		Lastname:  pgtype.Text{String: request.LastName, Valid: true},
 		Username:  request.Username,
 		Password:  pgtype.Text{String: string(passwordHash), Valid: true},
 	})
+	if err != nil {
+		return database.User{}, fmt.Errorf("create user: %w", err)
+	}
+	return user, nil
+}
+
+var errInvalidCredentials = errors.New("invalid credentials")
+
+func (s *svc) SignIn(ctx context.Context, request signInRequest) error {
+	user, err := s.repo.FetchUser(ctx, request.Username)
+	if err != nil {
+		if errors.Is(err, pgx.ErrNoRows) {
+			return errInvalidCredentials
+		}
+		return fmt.Errorf("fetch user: %w", err)
+	}
+	err = bcrypt.CompareHashAndPassword(
+		[]byte(user.Password.String),
+		[]byte(request.Password),
+	)
+	if errors.Is(err, bcrypt.ErrMismatchedHashAndPassword) {
+		return errInvalidCredentials
+	}
+	if err != nil {
+		return fmt.Errorf("compare password: %w", err)
+	}
+	return nil
 }
