@@ -3,6 +3,7 @@ package user
 import (
 	"context"
 
+	"github.com/tanmay21k/internal/auth"
 	"github.com/tanmay21k/internal/database"
 )
 
@@ -28,5 +29,6 @@ func (r sqlcRepository) FetchUser(ctx context.Context, username string) (databas
 }
 
 type svc struct {
-	repo repository
+	repo   repository
+	tokens *auth.TokenManager
 }

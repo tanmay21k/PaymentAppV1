@@ -9,6 +9,7 @@ import (
 	"strings"
 
 	"github.com/jackc/pgx/v5/pgconn"
+	"github.com/tanmay21k/internal/auth"
 	"github.com/tanmay21k/internal/database"
 	"github.com/tanmay21k/internal/helpers"
 )
@@ -23,8 +24,8 @@ func SayHello(log *slog.Logger) http.Handler {
 	})
 }
 
-func SignUp(log *slog.Logger, queries *database.Queries) http.Handler {
-	service := newService(newRepository(queries))
+func SignUp(log *slog.Logger, queries *database.Queries, tokens *auth.TokenManager) http.Handler {
+	service := newService(newRepository(queries), tokens)
 
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		if !helpers.ValidateMethod(log, w, r, http.MethodPost) {
@@ -43,7 +44,8 @@ func SignUp(log *slog.Logger, queries *database.Queries) http.Handler {
 			return
 		}
 
-		if _, err := service.SignUp(r.Context(), request); err != nil {
+		token, err := service.SignUp(r.Context(), request)
+		if err != nil {
 			var postgresErr *pgconn.PgError
 			if errors.As(err, &postgresErr) && postgresErr.Code == "23505" {
 				http.Error(w, "username already exists", http.StatusConflict)
@@ -55,19 +57,14 @@ func SignUp(log *slog.Logger, queries *database.Queries) http.Handler {
 		}
 
 		w.Header().Set("Content-Type", "application/json")
-		w.WriteHeader(http.StatusCreated)
-		if err := json.NewEncoder(w).Encode(map[string]string{
-			"firstName": request.FirstName,
-			"lastName":  request.LastName,
-			"username":  request.Username,
-		}); err != nil {
+		if err := json.NewEncoder(w).Encode(authResponse{Msg: "Account created", Token: token}); err != nil {
 			log.Error("could not write signup response", "error", err)
 		}
 	})
 }
 
-func SignIn(log *slog.Logger, queries *database.Queries) http.Handler {
-	service := newService(newRepository(queries))
+func SignIn(log *slog.Logger, queries *database.Queries, tokens *auth.TokenManager) http.Handler {
+	service := newService(newRepository(queries), tokens)
 
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		if !helpers.ValidateMethod(log, w, r, http.MethodPost) {
@@ -86,7 +83,8 @@ func SignIn(log *slog.Logger, queries *database.Queries) http.Handler {
 			return
 		}
 
-		if err := service.SignIn(r.Context(), request); err != nil {
+		token, err := service.SignIn(r.Context(), request)
+		if err != nil {
 			if errors.Is(err, errInvalidCredentials) {
 				http.Error(w, "invalid username or password", http.StatusUnauthorized)
 				return
@@ -96,9 +94,16 @@ func SignIn(log *slog.Logger, queries *database.Queries) http.Handler {
 			return
 		}
 
-		w.WriteHeader(http.StatusOK)
-		// TODO: Return a JWT token in the response.
+		w.Header().Set("Content-Type", "application/json")
+		if err := json.NewEncoder(w).Encode(authResponse{Msg: "Sign-in successful", Token: token}); err != nil {
+			log.Error("could not write signin response", "error", err)
+		}
 	})
+}
+
+type authResponse struct {
+	Msg   string `json:"msg"`
+	Token string `json:"token"`
 }
 
 func decodeJSON(r *http.Request, dst any) error {

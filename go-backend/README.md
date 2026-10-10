@@ -13,6 +13,8 @@ transaction - userId, type, amount , balance, counterpartyId, transferId   , sta
 
 - auth middleware using jwt
 
+The API loads variables from `.env` when present (or from the process environment). Set `JWT_SECRET` to a secret of at least 32 bytes; signup and signin return an HS256 bearer token that expires after seven days. See `.env.example` for the local configuration format.
+
 ### routes
 
 /balance
