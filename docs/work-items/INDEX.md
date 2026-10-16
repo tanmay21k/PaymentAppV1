@@ -5,4 +5,4 @@ Only the owner approves drafts, starts implementation, and authorizes closure.
 
 | ID | Title | Status | File |
 | --- | --- | --- | --- |
-| _none yet_ | | | |
+| GO-001 | Initialise the Go backend | Awaiting Approval | [GO-001-initialise-go-backend.md](GO-001-initialise-go-backend.md) |
