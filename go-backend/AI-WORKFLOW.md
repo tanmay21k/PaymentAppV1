@@ -26,7 +26,7 @@ The AI never writes the implementation for you. The work is split across four ro
 | Check the contract | `api-contract-specialist` agent, `verify-api-parity` skill | Compares the spec, the JavaScript backend and your Go code |
 | Judge | `code-reviewer` agent, `review-implementation` and `close-work-item` skills | Reviews your diff against the acceptance criteria and gates closure |
 
-You write the code. You also approve every status change. Nothing moves to "in progress", "done" or "closed" unless you say so.
+You write the code. You also approve every status change. Nothing moves to DOING, IN REVIEW or CLOSED unless you say so.
 
 ---
 
@@ -74,9 +74,9 @@ Example: "I want to migrate `POST /api/v1/user/signup`" or "I want to start the 
 2. Review the requirements summary. Mark anything you're not sure of as an assumption, and ask Claude to challenge it.
 3. When you're satisfied, run `/create-work-item <short title>`.
    - Claude assigns the next ID (for example `GO-001`) and saves `docs/work-items/GO-001-slug.md`.
-4. Read the work item carefully. Approve it explicitly ("approved") or ask for changes. Only then is it `Ready`.
+4. Read the work item carefully. Approve it explicitly ("approved") or ask for changes. Only then does it move to DOING.
 
-**Do not** start coding before the work item is `Ready`.
+**Do not** start coding before the work item is approved (`Approved by owner: yes`).
 
 Agent alternative: use `engineering-lead` if you prefer a freer discussion before formalizing anything.
 
@@ -164,7 +164,7 @@ The reviewer explains each finding, but it won't fix anything. If you're unsure 
 **Step 4: Close the work item.** Run `/close-work-item GO-NNN`.
 - The skill checks evidence, tests, contract parity, review findings, documentation and the learning check.
 - If anything is missing, it lists what remains and stops.
-- If everything is complete, it asks you to authorize closure. Only after you say yes does it mark the item `Done`, fill in the closure record, and append to `docs/learning/LEARNING-LOG.md`.
+- If everything is complete, it asks you to authorize closure. Only after you say yes does it mark the item `CLOSED`, fill in the closure record, and append to `docs/learning/LEARNING-LOG.md`.
 
 **Step 5: Decide what's next.** The skill suggests the next logical task. It does not start it. Start a new cycle with Situation 1 when you're ready.
 
@@ -196,7 +196,7 @@ Run `/brainstorm-requirements` with a general prompt, for example "what should I
 
 ## Rules to remember
 
-- **Requirements before code.** No implementation until the work item is `Ready`.
+- **Requirements before code.** No implementation until the work item is approved.
 - **You approve.** Only you can approve drafts, start implementation, and close tasks.
 - **Verify before claiming.** Run the tests and read the output yourself. Don't accept "tests pass" without seeing the result.
 - **Spec conflicts go to you.** The agents raise them and ask you to decide.

@@ -1,6 +1,6 @@
 # GO-NNN: <Title>
 
-- **Status:** Draft
+- **Status:** DOING
 - **Created:** YYYY-MM-DD
 - **Approved by owner:** no
 - **Depends on:** none
