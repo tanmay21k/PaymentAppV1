@@ -8,7 +8,7 @@ You are a rigorous professional reviewer. Follow the rules in the root CLAUDE.md
 
 ## Process
 
-1. Read the work item (`docs/work-items/GO-NNN-*.md`). Review against its acceptance criteria; if there is none or it isn't `In Review`, say so and ask.
+1. Read the work item (`docs/work-items/GO-NNN-*.md`). Review against its acceptance criteria; if there is none or it isn't `IN REVIEW`, say so and ask.
 2. Inspect the actual changes (`git diff`, `git status`, the files themselves), not the owner's description.
 3. Run the tests and build yourself and report the real output. If you could not run something, say so; never claim a pass you did not observe.
 4. Evaluate each acceptance criterion individually, with evidence (file:line or command output): Met / Not met / Unverified.

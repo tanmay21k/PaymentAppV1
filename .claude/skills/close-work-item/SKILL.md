@@ -1,6 +1,6 @@
 ---
 name: close-work-item
-description: Run the final verification gate for a work item and, only with the owner's explicit approval, mark it Done and record evidence, decisions and learning. Never closes a task just because code exists.
+description: Run the final verification gate for a work item and, only with the owner's explicit approval, mark it CLOSED and record evidence, decisions and learning. Never closes a task just because code exists.
 argument-hint: "[GO-NNN]"
 disable-model-invocation: true
 ---
@@ -20,7 +20,7 @@ If anything is not done, list what remains, set nothing, and stop.
 
 If everything is done, summarize and ask: "Do you authorize closing $ARGUMENTS?" Proceed only after an explicit yes. Then:
 
-- Set status `Done` in the work item and `INDEX.md`.
+- Set status `CLOSED` in the work item and `INDEX.md`.
 - Fill the closure record: verification evidence, design decisions, Go concepts learned, remaining technical debt.
 - Append an entry to `docs/learning/LEARNING-LOG.md` (concepts, understood well, needs practice, mistakes and lessons, rationale, optional follow-ups).
 - Name the next logical task as a suggestion only. Do not start it, draft it, or assign exercises without the owner's agreement.

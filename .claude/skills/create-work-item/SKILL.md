@@ -15,5 +15,5 @@ Create a work item for: $ARGUMENTS
    - Tag behaviors [Confirmed] or [Assumption]; unresolved assumptions go under risks/open questions.
    - Make the item small and independently verifiable; split it if it isn't.
    - List the Go concepts the owner will need.
-4. **Save** to `docs/work-items/GO-NNN-slug.md` with status `Awaiting Approval`, and add its row to `INDEX.md`.
-5. **Stop and ask for approval.** Show the owner the item summary and ask them to approve or request changes. Only after their explicit "approved" set the status to `Ready` in both the file and the index. Do not start implementation or any other task.
+4. **Save** to `docs/work-items/GO-NNN-slug.md` with status `DOING`, and add its row to `INDEX.md`.
+5. **Stop and ask for approval.** Show the owner the item summary and ask them to approve or request changes. Only after their explicit "approved" record `Approved by owner: yes` in the file header. The status stays `DOING`, and the index row must match. Do not start implementation or any other task.
