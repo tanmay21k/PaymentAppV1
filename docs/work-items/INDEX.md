@@ -1,6 +1,6 @@
 # Work Item Index
 
-Statuses: DOING, IN REVIEW, CLOSED.
+Statuses: DOING, CLOSED.
 Only the owner approves drafts, starts implementation, and authorizes closure.
 
 | ID | Title | Status | File |

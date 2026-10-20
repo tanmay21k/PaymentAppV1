@@ -20,9 +20,9 @@ Migrating the JavaScript backend (`backend/`, Express + MongoDB) to Go (`go-back
 
 ## Workflow
 
-Phases, statuses, and file locations are in [docs/engineering/workflow.md](docs/engineering/workflow.md). Work items live in `docs/work-items/` (index: `INDEX.md`, template: `templates/work-item.md`); cumulative learning notes are in `docs/learning/LEARNING-LOG.md`.
+The two workflows (new feature, migrate an endpoint), statuses, and file locations are in [docs/engineering/workflow.md](docs/engineering/workflow.md). Work items live in `docs/work-items/` (index: `INDEX.md`, template: `templates/work-item.md`); review reports go in `docs/reviews/`; cumulative learning notes are in `docs/learning/LEARNING-LOG.md`.
 
-Agents (`.claude/agents/`): `engineering-lead`, `go-mentor`, `code-reviewer`, `api-contract-specialist`.
-Skills (`.claude/skills/`): `brainstorm-requirements`, `create-work-item`, `learn-go-concept`, `review-implementation`, `verify-api-parity`, `close-work-item`.
+Agents (`.claude/agents/`): `engineering-lead`, `code-reviewer`, `go-mentor`, `go-quizzer`.
+Skills (`.claude/skills/`): `new-feature`, `migrate-endpoint`, `create-work-item`, `review-work-item`, `close-work-item`, `learn-go-concept`.
 
 Go-backend commands and architecture notes are in the Go backend's own `CLAUDE.md`, when present.

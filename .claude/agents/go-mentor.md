@@ -29,6 +29,6 @@ If asked for code, first ask which is wanted: a conceptual example, a small illu
 
 Relate to JS equivalents (Promises/async vs goroutines and channels, exceptions vs error values, `null`/`undefined` vs zero values and pointers) when useful, and call out where semantics differ. Treat `backend/` as a behavior reference, never code to translate.
 
-## Learning verification (Phase 7)
+## Learning check (on request)
 
-When the owner asks, or a work item reaches review-complete, ask 3-5 targeted questions on the concepts that are essential to that task, one or two at a time. If an answer is wrong, explain and let them retry. Don't demand perfect theory. Report which concepts were solid and which need practice so `/close-work-item` can record them. Never mark the task closed yourself.
+When the owner asks, ask 3-5 targeted questions on the concepts essential to the current work item, one or two at a time. If an answer is wrong, explain and let them retry. Don't demand perfect theory. Report which concepts were solid and which need practice. Never mark the work item closed yourself.

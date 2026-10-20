@@ -1,28 +1,38 @@
-# Engineering Workflow
+# Workflow
 
-One work item at a time. The owner (you) approves every gate marked 👤.
+Two ways to start work. Both end the same way.
 
-| Phase | What happens | Who | Status after |
-| --- | --- | --- | --- |
-| 1. Discovery | Describe the idea/bug/endpoint; clarify, inspect spec and JS code, compare approaches. No implementation. | `engineering-lead` or `/brainstorm-requirements` | — |
-| 2. Alignment | Lead proposes behavior, scope, acceptance criteria. You challenge and revise. | `engineering-lead` | — |
-| 3. Work item | Item saved as `docs/work-items/GO-NNN-slug.md`, added to `INDEX.md`. 👤 You approve (header: `Approved by owner: yes`). | `/create-work-item` | **DOING** |
-| 4. Implementation | You write the code. Ask for concept help any time. 👤 You mark start. | you + `go-mentor`, `/learn-go-concept` | **DOING** |
-| 5. Self-verification | You check each criterion and collect evidence (commands, test output, file refs). Optional: `/verify-api-parity`. | you | — |
-| 6. Review | Reviewer checks real changes against each criterion. You fix; reviewer re-checks. | `/review-implementation` → `code-reviewer` | **IN REVIEW** (back to DOING while changes are fixed) |
-| 7. Learning check | Mentor asks a few targeted questions on the key concepts. Misunderstandings are explained, then retried. | `go-mentor` | IN REVIEW |
-| 8. Closure | 👤 You authorize. Evidence, decisions, concepts, debt recorded; next task suggested, not started. | `/close-work-item` | **CLOSED** |
+## 1. New feature
 
-Only three statuses exist: **DOING**, **IN REVIEW**, **CLOSED**. Note a blocker in the work item's text; the status stays DOING.
+1. `/new-feature <idea>`: agree on the requirements, then `/create-work-item` saves the work item (`Approved by owner: no`).
+2. You approve the work item (`Approved by owner: yes`).
+3. You implement it in `go-backend/`.
+4. `/review-work-item` whenever you want a review. Fix what it finds, then ask again if you want.
+5. `/close-work-item GO-NNN` when you're ready. You confirm closure.
 
-## Conventions
+## 2. Migrate an endpoint from JS
 
-- IDs: `GO-001`, `GO-002`, … (next number = highest in `INDEX.md` + 1).
-- Statuses: DOING (includes drafting, approval and changes), IN REVIEW (includes ready for closure), CLOSED.
-- The status in the work item's header and in `INDEX.md` must match. Agents update them only to a state you explicitly approved.
-- Review reports are saved on request to `docs/reviews/GO-NNN-review-N.md` (create the directory when first needed).
-- A passing review is necessary but not sufficient for closure; the learning check and your approval are also required.
+1. `/migrate-endpoint <METHOD> <path>`: extract the contract from `openapi.yaml` and `backend/`, list spec-vs-JS conflicts, and `/create-work-item` saves the work item.
+2. You decide each conflict and approve the work item.
+3. You implement it in `go-backend/`.
+4. `/review-work-item` (it checks parity with the contract too), then `/close-work-item GO-NNN`.
 
-## Using the agents
+## Rules
 
-Skills run in the main conversation and are the best fit for multi-turn dialogue. Agents can be delegated to from a conversation ("use the go-mentor agent to…") or run as the whole session for back-and-forth work, e.g. `claude --agent go-mentor` (confirm the flag with `claude --help` on your version). Subagents return a single message to the caller, so for long interactive discussions prefer the skill or `--agent` form.
+- One work item at a time. Statuses are **DOING** and **CLOSED**.
+- Only you set `Approved by owner: yes`, and only you authorize closure.
+- A review needs no approval and no self-check first. It never changes a status.
+- Learning help is optional: `/learn-go-concept <concept>`, or ask the `go-mentor` agent a question.
+- Quizzes on closed work: ask the `go-quizzer` agent. It records results in `docs/learning/QUIZ-PROGRESS.md`.
+- IDs: `GO-NNN`. The next number is the highest in `INDEX.md` plus one.
+- Review reports: `docs/reviews/GO-NNN-review-N.md`, from [templates/review.md](../reviews/templates/review.md).
+- Work items: `docs/work-items/GO-NNN-slug.md`, from [templates/work-item.md](../work-items/templates/work-item.md).
+
+## Agents
+
+| Agent | Use it for |
+| --- | --- |
+| `engineering-lead` | Planning both flows and drafting work items. Writes only in `docs/work-items/`. |
+| `code-reviewer` | Reviews on request. Writes only in `docs/reviews/`. Never fixes code. |
+| `go-mentor` | Teaching and hints on request. Never writes the solution. |
+| `go-quizzer` | Quizzes on closed work, from `QUIZ-TOPICS.md`. Writes only `QUIZ-PROGRESS.md`. |
