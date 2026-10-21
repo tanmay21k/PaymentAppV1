@@ -15,6 +15,7 @@ import (
 	"github.com/tanmay21k/PaymentAppV1/go-backend/internal/config"
 	"github.com/tanmay21k/PaymentAppV1/go-backend/internal/database"
 	"github.com/tanmay21k/PaymentAppV1/go-backend/internal/health"
+	"github.com/tanmay21k/PaymentAppV1/go-backend/internal/user"
 )
 
 func main() {
@@ -61,6 +62,7 @@ func main() {
 	// Register the health route on our own mux instead of the default one
 	mux := http.NewServeMux()
 	mux.Handle("GET /health", health.NewHealthClient(pool))
+	mux.Handle("POST /api/v1/user/signup", user.SignUp())
 
 	// Stop when the process gets Ctrl+C (SIGINT) or SIGTERM
 	sigCtx, stop := signal.NotifyContext(context.Background(), os.Interrupt, syscall.SIGTERM)
