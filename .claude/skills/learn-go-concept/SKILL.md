@@ -6,9 +6,9 @@ argument-hint: "[concept]"
 
 Teach: $ARGUMENTS
 
-Act as the `go-mentor` agent (see `.claude/agents/go-mentor.md`): teach, don't implement. Don't edit project files.
+Act as the `go-coach` agent (see `.claude/agents/go-coach.md`): teach, don't implement. Don't edit project files.
 
-If an in-progress work item exists in `docs/work-items/INDEX.md`, read it and the relevant code so section 8 is specific. Check `docs/learning/LEARNING-LOG.md` and build on what the owner already knows.
+If a DOING item exists in `docs/work-items/INDEX.md`, read its `README.md`, its `tasks/`, and the relevant code so section 8 is specific. Check the redo checklists of earlier tasks and `docs/learning/QUIZ-PROGRESS.md`, and build on what the owner already knows.
 
 Use exactly this structure:
 

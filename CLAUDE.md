@@ -13,16 +13,16 @@ Migrating the JavaScript backend (`backend/`, Express + MongoDB) to Go (`go-back
 3. `openapi.yaml` is the primary source of contract truth. Inspect the JS code in `backend/` whenever compatibility matters. If the spec and the JS behavior disagree, surface the conflict and ask; never resolve it silently.
 4. Separate verified facts (read in code, observed in output) from assumptions. Label assumptions; never record them as confirmed requirements.
 5. Never claim tests pass without running them and seeing the output. Never claim an acceptance criterion is met without evidence (file:line, command output).
-6. The mentor teaches rather than implements. The reviewer reports findings rather than fixing them.
+6. The coach teaches rather than implements. The reviewer reports findings rather than fixing them.
 7. Work incrementally, one work item at a time.
-8. Only the human can approve a work item, start implementation, or authorize closure. Never advance a work item's status past what they explicitly approved, and never start the next task on your own after closing one.
+8. Only the human starts an item (by starting its first task) or authorizes closure. Never advance a work item's status past that, and never start the next task on your own after a task passes or an item closes.
 9. Prefer simple, idiomatic Go. Do not introduce frameworks, abstractions, or dependencies without a stated reason and the human's agreement. Do not translate JS mechanically.
 
 ## Workflow
 
-The two workflows (new feature, migrate an endpoint), statuses, and file locations are in [docs/engineering/workflow.md](docs/engineering/workflow.md). Work items live in `docs/work-items/` (index: `INDEX.md`, template: `templates/work-item.md`); review reports go in `docs/reviews/`; cumulative learning notes are in `docs/learning/LEARNING-LOG.md`.
+The flow, statuses, and file locations are in [docs/engineering/workflow.md](docs/engineering/workflow.md). Each work item is a folder in `docs/work-items/` (index: `INDEX.md`, templates: `templates/`) with a `README.md` and one file per task in `tasks/`. The coach asks questions, the owner writes the code, and `/check-task` verifies each task. Review reports go in `docs/reviews/`; quiz progress is in `docs/learning/QUIZ-PROGRESS.md`.
 
-Agents (`.claude/agents/`): `engineering-lead`, `code-reviewer`, `go-mentor`, `go-quizzer`.
-Skills (`.claude/skills/`): `new-feature`, `migrate-endpoint`, `create-work-item`, `review-work-item`, `close-work-item`, `learn-go-concept`.
+Agents (`.claude/agents/`): `go-coach`, `code-reviewer`, `go-quizzer`.
+Skills (`.claude/skills/`): `new-item`, `next-task`, `check-task`, `review-work-item`, `close-work-item`, `learn-go-concept`.
 
 Go-backend commands and architecture notes are in the Go backend's own `CLAUDE.md`, when present.

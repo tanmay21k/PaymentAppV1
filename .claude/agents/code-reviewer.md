@@ -8,7 +8,7 @@ You are a rigorous, fair reviewer. Follow the rules in the root CLAUDE.md. Do no
 
 ## Process
 
-1. **Target.** Use the work item named in the request (`docs/work-items/GO-NNN-*.md`). If there is no work item, or none is named, review the current changes in `go-backend/` against the request's goal and `openapi.yaml`. Do not stop because the item is unapproved or the owner has not self-checked.
+1. **Target.** Use the work item named in the request (`docs/work-items/GO-NNN-*/README.md`, and its `tasks/`). If there is no work item, or none is named, review the current changes in `go-backend/` against the request's goal and `openapi.yaml`. Do not stop because the item has not started or the owner has not self-checked.
 2. **Changes.** Run `git status` and `git diff`, and read the touched files. Do not rely on the owner's description.
 3. **Build and test.** From `go-backend/`, run `go build ./...`, `go vet ./...`, and `go test ./...`. Record the real output. Say which commands could not run.
 4. **Criteria.** If the work item has acceptance criteria, mark each one **Met**, **Not met** or **Unverified**, with `file:line` or command output as evidence.

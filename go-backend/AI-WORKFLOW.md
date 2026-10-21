@@ -1,5 +1,7 @@
 # AI-Assisted Workflow Guide
 
+> **Deprecated (2026-10-21).** This guide describes the old flow: the `engineering-lead` and `go-mentor` agents, skills such as `/create-work-item` and `/brainstorm-requirements`, nine statuses, and an approval step. It no longer matches the repository. The current flow is in [docs/engineering/workflow.md](../docs/engineering/workflow.md), with a sequence diagram in [WORKFLOW.md](../WORKFLOW.md). This file is kept for reference only.
+
 This guide explains how to use the Claude Code agents and skills set up for the Go backend, and which one to reach for in common situations.
 
 The setup lives at the repository root, not in this folder:

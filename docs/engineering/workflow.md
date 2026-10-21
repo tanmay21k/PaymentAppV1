@@ -1,38 +1,56 @@
 # Workflow
 
-Two ways to start work. Both end the same way.
+You work like Boot.dev: the coach asks questions, you reason out each step, you write the code, and a check tells you whether it worked. Each work item is a folder with a sequence of tasks, so you can reuse the sequences later as a reference when you code without AI.
 
-## 1. New feature
+The sequence diagram is in [WORKFLOW.md](../../WORKFLOW.md).
 
-1. `/new-feature <idea>`: agree on the requirements, then `/create-work-item` saves the work item (`Approved by owner: no`).
-2. You approve the work item (`Approved by owner: yes`).
-3. You implement it in `go-backend/`.
-4. `/review-work-item` whenever you want a review. Fix what it finds, then ask again if you want.
-5. `/close-work-item GO-NNN` when you're ready. You confirm closure.
+## Steps
 
-## 2. Migrate an endpoint from JS
+1. `/new-item <idea | METHOD path>`: the coach asks questions, one or two at a time, until the requirements are agreed. For a migration it lists the spec-vs-JS conflicts for you to decide. It saves `GO-NNN-slug/README.md` (status `TODO`). No tasks yet.
+2. `/next-task GO-NNN`: the coach asks questions so you reason out the next step, then writes that one task file (goal, concepts, check). The first task moves the item to `DOING`.
+3. You write the code in `go-backend/`. Ask the coach whenever you are unsure: it gives hints, never the solution.
+4. `/check-task GO-NNN <n>`: the coach runs the task's check and answers Met, Not met or Unverified, with evidence. On Met it drafts the **redo checklist** for you to confirm.
+5. Repeat steps 2 to 4 until the acceptance criteria are covered.
+6. `/review-work-item` whenever you want a review.
+7. `/close-work-item GO-NNN` when every task has passed. You confirm closure.
 
-1. `/migrate-endpoint <METHOD> <path>`: extract the contract from `openapi.yaml` and `backend/`, list spec-vs-JS conflicts, and `/create-work-item` saves the work item.
-2. You decide each conflict and approve the work item.
-3. You implement it in `go-backend/`.
-4. `/review-work-item` (it checks parity with the contract too), then `/close-work-item GO-NNN`.
+## Layout
+
+```
+docs/work-items/
+├── INDEX.md
+├── templates/            (README.md for items, task.md for tasks)
+└── GO-NNN-slug/
+    ├── README.md         (problem, scope, acceptance criteria, open questions, task list, closure)
+    └── tasks/
+        ├── 01-slug.md    (goal, concepts, check, result, redo checklist)
+        └── 02-slug.md
+```
 
 ## Rules
 
+<<<<<<< Updated upstream
 - One work item at a time. Statuses are **DOING** and **CLOSED**.
 - Only you set `Approved by owner: yes`, and only you authorize closure.
 - A review needs no approval and no self-check first. It never changes a status.
 - Learning help is optional: `/learn-go-concept <concept>`, or ask the `go-mentor` agent a question.
 - Quizzes on closed work: ask the `go-quizzer` agent. It records results in `docs/learning/QUIZ-PROGRESS.md`.
+=======
+- One work item at a time. Statuses are **TODO** (created, no task started), **DOING** (first task started) and **CLOSED**.
+- Only you start an item (by starting its first task) and authorize closure. There is no approval field.
+- Tasks are written one at a time. Task N+1 exists only after task N has passed.
+- The redo checklists are the learning record: numbered steps to repeat each task without AI, each with its concept.
+- A review needs no start and no self-check first. It never changes a status.
+- Learning help: `/learn-go-concept <concept>`, or ask the coach. Quizzes on closed work: ask the `go-quizzer` agent; it records results in `docs/learning/QUIZ-PROGRESS.md`. `docs/learning/LEARNING-LOG.md` is kept as history and is no longer appended.
+>>>>>>> Stashed changes
 - IDs: `GO-NNN`. The next number is the highest in `INDEX.md` plus one.
 - Review reports: `docs/reviews/GO-NNN-review-N.md`, from [templates/review.md](../reviews/templates/review.md).
-- Work items: `docs/work-items/GO-NNN-slug.md`, from [templates/work-item.md](../work-items/templates/work-item.md).
+- Templates: [item README](../work-items/templates/README.md) and [task](../work-items/templates/task.md).
 
 ## Agents
 
 | Agent | Use it for |
 | --- | --- |
-| `engineering-lead` | Planning both flows and drafting work items. Writes only in `docs/work-items/`. |
+| `go-coach` | Asking questions to plan an item, guiding each task, checking it, and writing the redo checklist. Writes only in `docs/work-items/`. Never writes application code. |
 | `code-reviewer` | Reviews on request. Writes only in `docs/reviews/`. Never fixes code. |
-| `go-mentor` | Teaching and hints on request. Never writes the solution. |
-| `go-quizzer` | Quizzes on closed work, from `QUIZ-TOPICS.md`. Writes only `QUIZ-PROGRESS.md`. |
+| `go-quizzer` | Quizzes on closed work, from `QUIZ-TOPICS.md` and the redo checklists. Writes only `QUIZ-PROGRESS.md`. |
