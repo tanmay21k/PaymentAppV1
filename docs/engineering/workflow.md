@@ -29,20 +29,13 @@ docs/work-items/
 
 ## Rules
 
-<<<<<<< Updated upstream
-- One work item at a time. Statuses are **DOING** and **CLOSED**.
-- Only you set `Approved by owner: yes`, and only you authorize closure.
-- A review needs no approval and no self-check first. It never changes a status.
-- Learning help is optional: `/learn-go-concept <concept>`, or ask the `go-mentor` agent a question.
-- Quizzes on closed work: ask the `go-quizzer` agent. It records results in `docs/learning/QUIZ-PROGRESS.md`.
-=======
 - One work item at a time. Statuses are **TODO** (created, no task started), **DOING** (first task started) and **CLOSED**.
 - Only you start an item (by starting its first task) and authorize closure. There is no approval field.
 - Tasks are written one at a time. Task N+1 exists only after task N has passed.
+- Every task is a list of micro-steps. Each one has an expectation (from the JS or an owner decision), a thing to do, and a check. Steps are done in order, and the task passes when every step is ticked.
 - The redo checklists are the learning record: numbered steps to repeat each task without AI, each with its concept.
 - A review needs no start and no self-check first. It never changes a status.
 - Learning help: `/learn-go-concept <concept>`, or ask the coach. Quizzes on closed work: ask the `go-quizzer` agent; it records results in `docs/learning/QUIZ-PROGRESS.md`. `docs/learning/LEARNING-LOG.md` is kept as history and is no longer appended.
->>>>>>> Stashed changes
 - IDs: `GO-NNN`. The next number is the highest in `INDEX.md` plus one.
 - Review reports: `docs/reviews/GO-NNN-review-N.md`, from [templates/review.md](../reviews/templates/review.md).
 - Templates: [item README](../work-items/templates/README.md) and [task](../work-items/templates/task.md).

@@ -64,7 +64,7 @@ The Go backend only serves `/health`. The first endpoint in `openapi.yaml` (`POS
 ## Tasks
 Tasks are added one at a time with `/next-task GO-003`. Each task is a file in `tasks/`; a task is ticked when `/check-task` passes it.
 
-- [ ] (none yet)
+- [ ] [01 Decode and validate the signup request](tasks/01-validate-signup-request.md)
 
 ## Closure
 - **Evidence:**
